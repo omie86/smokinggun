@@ -1,0 +1,4 @@
+---
+  # Playbook webserver role
+
+- include: nginx.yml

@@ -1,0 +1,77 @@
+---
+  #
+
+- name: Update package cache
+  apt: update_cache=yes
+  become: yes
+  become_method: sudo
+
+- name: Ensure web server packages are installed
+  apt: name={{ item }}
+  become: yes
+  become_method: sudo
+  with_items:
+    - fail2ban
+    - python-virtualenv
+    - python-dev
+
+
+# CONFIGURE UFW FIREWALL
+- name: UFW enable SSH in firewall
+  ufw: rule=allow port=22
+  become: yes
+  become_method: sudo
+
+- name: UFW enable HTTP connections for web server
+  ufw: rule=allow port=80
+  become: yes
+  become_method: sudo
+
+- name: UFW enable HTTPS connections for web server
+  ufw: rule=allow port=443
+  become: yes
+  become_method: sudo
+
+- name: UFW enable firewall
+  ufw: state=enabled
+  become: yes
+  become_method: sudo
+
+
+# CREATE NON-ROOT USER
+- name: Create deployers group
+  group: name={{ deploy_group }} state=present
+  become: yes
+  become_method: sudo
+
+- name: Create deployer user
+  user: name={{ deploy_user }} shell=/bin/bash group=deployers state=present
+  become: yes
+  become_method: sudo
+
+- name: Sudo rights for deployer
+  lineinfile: dest=/etc/sudoers regexp="^{{ deploy_user }}" line="{{ deploy_user }} ALL=(ALL) NOPASSWD:ALL" state=present
+  become: yes
+  become_method: sudo
+
+- name: Set deployer public key
+  authorized_key: user={{ deploy_user }} key="{{ lookup('file', pub_key_path) }}"
+  become: yes
+  become_method: sudo
+
+
+## SSHD_CONFIG
+- name: Remove PAM login
+  lineinfile: dest=/etc/ssh/sshd_config regexp="^UsePAM" line="UsePAM no" state=present
+  become: yes
+  become_method: sudo
+
+- name: Remove access via password authentication
+  lineinfile: dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication no" state=present
+  become: yes
+  become_method: sudo
+
+- name: Remove root ssh login
+  lineinfile: dest=/etc/ssh/sshd_config regexp="^PermitRootLogin" line="PermitRootLogin no" state=present
+  become: yes
+  become_method: sudo

@@ -1,0 +1,22 @@
+---
+  # Configure Nginx web server
+
+- name: Ensure Nginx is installed via the system package
+  apt: name=nginx update_cache=yes state=present
+  become: yes
+  become_method: sudo
+
+# - name: Write SSL nginx configuration
+#   template: src=nginx_ssl.conf.j2 dest=/etc/nginx/conf.d/{{ app_name }}.conf
+#   become: yes
+#   become_method: sudo
+#   when: {{ production_mode }} == "True"
+#   notify:
+#     - restart nginx
+
+- name: Write non-SSL nginx configuration
+  template: src=nginx_no_ssl.conf.j2 dest=/etc/nginx/conf.d/{{ app_name }}.conf
+  become: yes
+  become_method: sudo
+  notify:
+    - restart nginx

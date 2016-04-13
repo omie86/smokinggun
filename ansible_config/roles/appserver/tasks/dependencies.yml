@@ -1,0 +1,10 @@
+---
+  # Playbook to install application dependencies
+
+- name: Install virtualenv and dependencies
+  pip:
+    requirements: "{{ app_dir }}/requirements.txt"
+    virtualenv: "{{ venv_dir }}"
+    virtualenv_python: python2.7
+  become: yes
+  become_method: sudo
