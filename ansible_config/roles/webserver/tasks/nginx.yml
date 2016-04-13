@@ -6,17 +6,39 @@
   become: yes
   become_method: sudo
 
-# - name: Write SSL nginx configuration
-#   template: src=nginx_ssl.conf.j2 dest=/etc/nginx/conf.d/{{ app_name }}.conf
-#   become: yes
-#   become_method: sudo
-#   when: {{ production_mode }} == "True"
-#   notify:
-#     - restart nginx
 
 - name: Write non-SSL nginx configuration
   template: src=nginx_no_ssl.conf.j2 dest=/etc/nginx/conf.d/{{ app_name }}.conf
   become: yes
   become_method: sudo
+  when: tls_enabled == 'false'
   notify:
     - restart nginx
+
+
+- name: Write SSL nginx configuration
+  template: src=nginx_ssl.conf.j2 dest=/etc/nginx/conf.d/{{ app_name }}.conf
+  become: yes
+  become_method: sudo
+  when: tls_enabled
+  notify:
+    - restart nginx
+
+
+- name: Ensure tls path exists
+  file: path=/etc/nginx/{{ app_name }} state=directory
+  become: yes
+  become_method: sudo
+  when: tls_enabled
+
+
+- name: Create tls certificates
+  command: >
+    openssl req -new -x509 -nodes -out {{ app_name }}.crt
+    -keyout {{ app_name }}.key -subj '/CN={{ fqdn }}' -days 3650
+    chdir=/etc/nginx/{{ app_name }}
+    creates=/etc/nginx/{{ app_name }}/{{ app_name }}.crt
+  become: yes
+  become_method: sudo
+  when: tls_enabled
+  notify: restart nginx

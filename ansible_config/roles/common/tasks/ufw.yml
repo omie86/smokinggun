@@ -1,0 +1,11 @@
+---
+  # CONFIGURE UFW FIREWALL
+- name: UFW enable SSH in firewall
+  ufw: rule=allow port=22
+  become: yes
+  become_method: sudo
+
+- name: UFW enable firewall
+  ufw: state=enabled
+  become: yes
+  become_method: sudo

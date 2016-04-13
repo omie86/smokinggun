@@ -1,5 +1,5 @@
 ---
-  #
+  # Update/Install OS packages
 
 - name: Update package cache
   apt: update_cache=yes
@@ -14,28 +14,6 @@
     - fail2ban
     - python-virtualenv
     - python-dev
-
-
-# CONFIGURE UFW FIREWALL
-- name: UFW enable SSH in firewall
-  ufw: rule=allow port=22
-  become: yes
-  become_method: sudo
-
-- name: UFW enable HTTP connections for web server
-  ufw: rule=allow port=80
-  become: yes
-  become_method: sudo
-
-- name: UFW enable HTTPS connections for web server
-  ufw: rule=allow port=443
-  become: yes
-  become_method: sudo
-
-- name: UFW enable firewall
-  ufw: state=enabled
-  become: yes
-  become_method: sudo
 
 
 # CREATE NON-ROOT USER

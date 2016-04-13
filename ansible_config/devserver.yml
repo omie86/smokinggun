@@ -1,0 +1,28 @@
+---
+# file: devservers.yml
+- hosts: devservers
+  roles:
+    - common
+    - webserver
+    - appserver
+    - dbserver
+
+
+  tasks:
+  - name: Install development only virtualenv and dependencies
+    pip:
+      requirements: "{{ local_dev_dir }}/requirements.txt"
+      virtualenv: "{{ local_dev_dir }}/venv_dev"
+      virtualenv_python: python2.7
+    become: yes
+    become_method: sudo
+
+  - name: UFW allow Flask dev server port
+    ufw: rule=allow port=8080
+    become: yes
+    become_method: sudo
+
+  - name: UFW enable firewall
+    ufw: state=enabled
+    become: yes
+    become_method: sudo

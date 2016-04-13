@@ -31,7 +31,7 @@ SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDHR
     # nginx serve up static files and never send to the WSGI server
     location /static {
         autoindex on;
-        alias {{ app_dir }}/{{ app_name }}/static; 
+        alias {{ app_dir }}/{{ app_name }}/static;
     }
 
     location / {

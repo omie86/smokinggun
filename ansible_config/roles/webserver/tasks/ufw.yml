@@ -1,0 +1,17 @@
+---
+  # Open port 80, 443
+
+- name: UFW enable HTTP connections for web server
+  ufw: rule=allow port=80
+  become: yes
+  become_method: sudo
+
+- name: UFW enable HTTPS connections for web server
+  ufw: rule=allow port=443
+  become: yes
+  become_method: sudo
+
+- name: UFW enable firewall
+  ufw: state=enabled
+  become: yes
+  become_method: sudo

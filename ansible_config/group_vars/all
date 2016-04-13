@@ -1,14 +1,28 @@
 # Users
 deploy_user: deployer
 deploy_group: deployers
-pub_key_path: ~/.ssh/id_rsa.pub
+pub_key_path:
+
 
 # Application
-app_name: exampleapp
+app_name: mailgunpi
 app_dir: /home/{{deploy_user}}/{{app_name}}
-app_repo: https://github.com/example/exampleapp.git
 venv_dir: {{ app_dir }}/venv
-fqdn: exampleapp.io
+
+
+# Web Server Setup
+fqdn: mailgunpi.com
+tls_enabled: false
+
+
+# Version Control
+local_deploy_key_dir: ~/Code/{{ app_name }}/deploy_key
+code_repository: https://github.com/example/exampleapp.git
+
 
 # WSGI
 wsgi_server_port: 8000
+
+
+# Development Environment
+local_dev_dir: /home/vagrant/{{ app_name }}
