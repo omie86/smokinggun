@@ -7,3 +7,4 @@ app.config.from_pyfile('config.py', silent=True)
 
 
 from mailgunpi import views
+from mailgunpi.endpoints import mailgun
