@@ -5,10 +5,10 @@
 import copy
 
 from flask import make_response, jsonify, request
-import requests
 
 from mailgunpi import app
 from mailgunpi.models import RESPONSE_MODEL
+from mailgunpi.utils import get_events
 
 
 @app.route('/api/v1/mailgun/events', methods=['GET'])
@@ -32,14 +32,3 @@ def get_json_events():
     response_document['items'] = items
 
     return jsonify(response_document)
-
-
-def get_events(domain_name):
-    domain = "https://api.mailgun.net/v3/{}/events".format(domain_name)
-    return requests.get(
-        domain,
-        auth=("api", app.config["MAILGUN_API_KEY"]),
-        params={"begin"       : "Sun, 3 Apr 2016 09:00:00 -0000",
-                "ascending"   : "yes",
-                "limit"       :  25,
-                "pretty"      : "yes"})
