@@ -18,8 +18,7 @@ class ViewsTestCase(TestCase):
     def test_root_view(self):
         """Test that root '/' returns page"""
         response = self.app.get('/')
-        
-        assert 'MailgunPI' in response.data
+        assert 'Mailgun P.I.' in response.data
 
 
 if __name__ == '__main__':
