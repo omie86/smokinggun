@@ -20,6 +20,12 @@ class ViewsTestCase(TestCase):
         response = self.app.get('/')
         assert 'Mailgun P.I.' in response.data
 
+    def test_root_view_has_query_form(self):
+        """Test that root '/' contains query form"""
+        response = self.app.get('/')
+
+        assert 'form-mailgun-query' in response.data
+
 
 if __name__ == '__main__':
     main()
