@@ -17,31 +17,23 @@ class MailgunEventsEndpointTestCase(TestCase):
     def tearDown(self):
         pass
 
-    def test_mailgun_events_endpoint_returns_response(self):
+    def test_events_endpoint_returns_response(self):
         """Test that mailgun events endpoint returns 200 status code"""
         response = self.app.get(self.base_endpoint)
 
         self.assertEqual(response.status_code, 200)
 
-    def test_mailgun_events_endpoint_returns_required_fields(self):
-        """Test that mailgun events endpoint returns required fields"""
-        required_fields = ['status', 'total', 'items']
-
-        response = self.app.get(self.base_endpoint)
-
-        data = json.loads(response.data)
-
-        for field in required_fields:
-            self.assertTrue(field in data)
-
-    def test_mailgun_events_domain_endpoint_returns_response(self):
-        """Test that mailgun events domain endpoint returns 200 status code"""
+    def test_events_endpoint_returns_json_response_for_domain(self):
+        """Test that mailgun events endpoint returns for domain"""
         domain = 'wakefield.myenotice.com'
 
-        domain_endpoint = self.base_endpoint + '/{}'.format(domain)
+        domain_endpoint = self.base_endpoint + '?domain={}'.format(domain)
 
         response = self.app.get(domain_endpoint)
         self.assertEqual(response.status_code, 200)
+
+        json_response = json.loads(response.data)
+        self.assertEqual(json_response['domain'], domain)
 
 
 if __name__ == '__main__':
