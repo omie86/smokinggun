@@ -9,9 +9,29 @@
 </head>
 <body>
   <h1>Mailgun P.I.</h1>
-  <form action="/api/v1/mailgun/event" method="POST">
-    <input type="text" placeholder="Email domain (ex. wakefield.myenotice.com)">
+  <form id="form-mailgun-query" action="/" method="GET">
+    <input type="text" placeholder="Email domain (ex. wakefield.myenotice.com)" name="domain">
     <button type="submit">Run query</button>
   </form>
+  <table>
+    <thead>
+      <th>Timestamp</th>
+      <th>Event Type</th>
+      <th>Recipients</th>
+      <th>User variables</th>
+      <th>Message headers</th>
+    </thead>
+    <tbody>
+      {% for event in events %}
+       <tr>
+         <td>{{ event.timestamp }}</td>
+         <td>{{ event.event }}</td>
+         <td>{{ event.message.recipients }}</td>
+         <td>{{ event['user-variables'] }}</td>
+         <td>{{ event.message.headers }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </body>
 </html>
