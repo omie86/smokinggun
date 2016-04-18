@@ -2,22 +2,36 @@
 """
 
 
-from flask import make_response, jsonify
+import copy
+
+from flask import make_response, jsonify, request
 import requests
 
 from mailgunpi import app
+from mailgunpi.models import RESPONSE_MODEL
 
 
 @app.route('/api/v1/mailgun/events', methods=['GET'])
-def get_events():
+def get_json_events():
     """Return Mailgun API response"""
-    data = {
-        'status': 200,
-        'total': 0,
-        'items': []
-    }
+    domain = request.args.get('domain')
+    if not domain:
+        response_document = copy.deepcopy(RESPONSE_MODEL)
+        response_document['status'] = 'No domain provided'
+        return jsonify(response_document)
 
-    return jsonify(data)
+    # Fetch data from Mailgun API
+    response = get_events(domain)
+    json_response = response.json()
+    items = json_response['items']
+
+    # Build response JSON document
+    response_document = copy.deepcopy(RESPONSE_MODEL)
+    response_document['domain'] = domain
+    response_document['total'] = len(items)
+    response_document['items'] = items
+
+    return jsonify(response_document)
 
 
 @app.route('/api/v1/mailgun/events/<domain_name>', methods=['GET'])
