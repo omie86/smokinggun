@@ -34,22 +34,6 @@ def get_json_events():
     return jsonify(response_document)
 
 
-@app.route('/api/v1/mailgun/events/<domain_name>', methods=['GET'])
-def get_domain_events(domain_name):
-    """Return events resource for domain"""
-    response = get_events(domain_name)
-    json_response = response.json()
-    items = json_response['items']
-
-    data = {
-        'status': 200,
-        'total': len(items),
-        'items': items
-    }
-
-    return jsonify(data)
-
-
 def get_events(domain_name):
     domain = "https://api.mailgun.net/v3/{}/events".format(domain_name)
     return requests.get(
