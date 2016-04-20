@@ -13,6 +13,9 @@
     <input type="text" placeholder="Email domain (ex. wakefield.myenotice.com)" name="domain">
     <button type="submit">Run query</button>
   </form>
+  {% if download_link %}
+    <a href="{{ download_link }}" target="_blank">Download</a>
+  {% endif %}
   <table>
     <thead>
       <th>Timestamp</th>

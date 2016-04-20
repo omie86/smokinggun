@@ -20,10 +20,12 @@ def get_root():
         response = get_events(domain)
         json_response = response.json()
         events = json_response['items']
+        download_endpoint = '/download?domain={}'.format(domain)
     else:
         events = []
+        download_endpoint = None
 
-    return render_template('index.html', events=events)
+    return render_template('index.html', events=events, download_link=download_endpoint)
 
 
 @app.route('/download', methods=['GET'])
