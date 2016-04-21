@@ -63,6 +63,10 @@ td {
   text-overflow: hidden;
 }
 
+#headers tr {
+  border-bottom: 1px solid #dfdfdf;
+}
+
 #headers tr:hover {
   background: initial;
 }
