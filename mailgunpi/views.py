@@ -18,11 +18,24 @@ def get_root():
     """Return"""
     domain = request.args.get('domain')
     if domain:
-        # Fetch data from Mailgun API
-        response = get_events(domain)
+        # Build Mailgun API parameter dictionary
+        params = {}
+
+        event_type = request.args.get('event')
+        if event_type:
+                params['event'] = event_type
+
+        recipient = request.args.get('recipient')
+        if recipient:
+            params['recipient'] = recipient
+
+        # Fetch data from Mailgun API for given parameters
+        response = get_events(domain, params)
         json_response = response.json()
         events = json_response['items']
-        download_endpoint = '/download?domain={}'.format(domain)
+
+        # Create download endpoint
+        download_endpoint = '/download?domain={}&event={}&recipient={}'.format(domain, event_type, recipient)
     else:
         events = []
         download_endpoint = None
@@ -37,10 +50,22 @@ def download():
     if not domain:
         return jsonify({"error": "Missing required arguments"})
 
-    # Fetch data from Mailgun API
-    response = get_events(domain)
+    # Build Mailgun API parameter dictionary
+    params = {}
+
+    event_type = request.args.get('event')
+    if event_type:
+            params['event'] = event_type
+
+    recipient = request.args.get('recipient')
+    if recipient:
+        params['recipient'] = recipient
+
+    # Fetch data from Mailgun API for given parameters
+    response = get_events(domain, params)
     json_response = response.json()
     events = json_response['items']
+
 
     mailgun_json = {
         "data": events
