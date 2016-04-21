@@ -28,11 +28,12 @@
     <div class="grid__row">
       <div class="grid__col-5">
         <form id="form-mailgun-query" action="/" method="GET">
-          <input type="text" placeholder="Email domain (ex. wakefield.myenotice.com)" name="domain" required>
-          <input type="text" placeholder="Event type (ex. delivered)" name="event">
-          <input type="email" placeholder="Recipient email address" name="recipient">
+          <input type="text" placeholder="Email domain (ex. wakefield.myenotice.com)" name="domain" required value="{{ params.domain }}">
+          <input type="text" placeholder="Event type (ex. delivered)" name="event" value="{{ params.event }}">
+          <input type="email" placeholder="Recipient email address" name="recipient" value="{{ params.recipient }}">
           <button type="submit">Run query</button>
         </form>
+        <a href="/">Reset form</a>
       </div>
       <div class="grid__col-7 text--right">
         {% if download_link %}

@@ -34,13 +34,17 @@ def get_root():
         json_response = response.json()
         events = json_response['items']
 
+        # Add domain to params object so it renders in template
+        params['domain'] = domain
+        
         # Create download endpoint
         download_endpoint = '/download?domain={}&event={}&recipient={}'.format(domain, event_type, recipient)
     else:
+        params = {}
         events = []
         download_endpoint = None
 
-    return render_template('index.html', events=events, download_link=download_endpoint)
+    return render_template('index.html', events=events, download_link=download_endpoint, params=params)
 
 
 @app.route('/download', methods=['GET'])
