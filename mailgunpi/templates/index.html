@@ -6,35 +6,60 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mailgun P.I.</title>
   <!-- Link to styles -->
+  <link href="{{ url_for('static', filename='styles/normalize.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='styles/score.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='styles/main.css') }}" rel="stylesheet">
 </head>
 <body>
-  <h1>Mailgun P.I.</h1>
-  <form id="form-mailgun-query" action="/" method="GET">
-    <input type="text" placeholder="Email domain (ex. wakefield.myenotice.com)" name="domain">
-    <button type="submit">Run query</button>
-  </form>
-  {% if download_link %}
-    <a href="{{ download_link }}" target="_blank">Download</a>
-  {% endif %}
-  <table>
-    <thead>
-      <th>Timestamp</th>
-      <th>Event Type</th>
-      <th>Recipients</th>
-      <th>User variables</th>
-      <th>Message headers</th>
-    </thead>
-    <tbody>
-      {% for event in events %}
-       <tr>
-         <td>{{ event.timestamp }}</td>
-         <td>{{ event.event }}</td>
-         <td>{{ event.message.recipients }}</td>
-         <td>{{ event['user-variables'] }}</td>
-         <td>{{ event.message.headers }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <header class="header header--shadow">
+    <div class="grid">
+      <div class="grid__row">
+        <div class="grid__col-12">
+          <div class="logo">
+            <h1 class="logo__title">Mailgun P.I.</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="grid">
+    <div class="grid__row">
+      <div class="grid__col-8">
+        <form id="form-mailgun-query" action="/" method="GET">
+          <input type="text" placeholder="Email domain (ex. wakefield.myenotice.com)" name="domain">
+          <button type="submit">Run query</button>
+        </form>
+      </div>
+      <div class="grid__col-4 text--right">
+        {% if download_link %}
+          <a href="{{ download_link }}" target="_blank">Download</a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="grid__row">
+      <div class="grid__col-12">
+        <table>
+          <thead>
+            <th>Timestamp</th>
+            <th>Event Type</th>
+            <th>Recipients</th>
+            <th>User variables</th>
+            <th>Message headers</th>
+          </thead>
+          <tbody>
+            {% for event in events %}
+             <tr>
+               <td>{{ event.timestamp }}</td>
+               <td>{{ event.event }}</td>
+               <td>{{ event.message.recipients }}</td>
+               <td>{{ event['user-variables'] }}</td>
+               <td>{{ event.message.headers }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
