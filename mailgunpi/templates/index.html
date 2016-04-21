@@ -16,7 +16,9 @@
       <div class="grid__row">
         <div class="grid__col-12">
           <div class="logo">
-            <h1 class="logo__title">Mailgun P.I.</h1>
+            <a href="/">
+              <h1 class="logo__title">Mailgun P.I.</h1>
+            </a>
           </div>
         </div>
       </div>
@@ -24,13 +26,15 @@
   </header>
   <div class="grid">
     <div class="grid__row">
-      <div class="grid__col-8">
+      <div class="grid__col-5">
         <form id="form-mailgun-query" action="/" method="GET">
-          <input type="text" placeholder="Email domain (ex. wakefield.myenotice.com)" name="domain">
+          <input type="text" placeholder="Email domain (ex. wakefield.myenotice.com)" name="domain" required>
+          <input type="text" placeholder="Event type (ex. delivered)" name="event">
+          <input type="email" placeholder="Recipient email address" name="recipient">
           <button type="submit">Run query</button>
         </form>
       </div>
-      <div class="grid__col-4 text--right">
+      <div class="grid__col-7 text--right">
         {% if download_link %}
           <a href="{{ download_link }}" target="_blank">Download</a>
         {% endif %}
@@ -39,7 +43,7 @@
     <div class="grid__row">
       <div class="grid__col-12">
         <table>
-          <thead>
+          <thead id="headers">
             <th>Timestamp</th>
             <th>Event Type</th>
             <th>Recipients</th>
