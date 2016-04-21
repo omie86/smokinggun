@@ -15,3 +15,5 @@ MAILGUN_SMTP_LOGIN = 'INSERT YOUR VALUE HERE'
 MAILGUN_API_BASE_URL = 'INSERT YOUR VALUE HERE'
 MAILGUN_API_KEY = 'INSERT YOUR VALUE HERE'
 ```
+## Third-party dependencies
+https://github.com/evidens/json2csv
