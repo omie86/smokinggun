@@ -81,6 +81,7 @@ deploy_key/*
 
 # Temp Files
 *.retry
+tempfiles
 
 # Flask development environment configuration
 instance/
