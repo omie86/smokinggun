@@ -8,9 +8,8 @@ from flask import Flask, redirect, render_template, jsonify, make_response, requ
 
 from json2csv import gen_outline, json2csv
 
-from mailgunpi import app
+from mailgunpi import app, mg
 from mailgunpi.config import UPLOAD_FOLDER
-from mailgunpi.utils import get_events
 
 
 @app.route('/', methods=['GET'])
@@ -30,13 +29,12 @@ def get_root():
             params['recipient'] = recipient
 
         # Fetch data from Mailgun API for given parameters
-        response = get_events(domain, params)
-        json_response = response.json()
-        events = json_response['items']
+        response = mg.get_events(domain, params)
+        events = response['items']
 
         # Add domain to params object so it renders in template
         params['domain'] = domain
-        
+
         # Create download endpoint
         download_endpoint = '/download?domain={}&event={}&recipient={}'.format(domain, event_type, recipient)
     else:
@@ -66,10 +64,8 @@ def download():
         params['recipient'] = recipient
 
     # Fetch data from Mailgun API for given parameters
-    response = get_events(domain, params)
-    json_response = response.json()
-    events = json_response['items']
-
+    response = mg.get_events(domain, params)
+    events = response['items']
 
     mailgun_json = {
         "data": events
