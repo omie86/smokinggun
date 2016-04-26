@@ -78,6 +78,7 @@ jasmine
 # Private files
 private
 deploy_key/*
+tests/*/config.py
 
 # Temp Files
 *.retry
