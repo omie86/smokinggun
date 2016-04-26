@@ -8,7 +8,6 @@
   <title>Mailgun P.I.</title>
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-  <link href="{{ url_for('static', filename='styles/main.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -25,8 +24,12 @@
         <div class="form-group">
           <label>Email domain</label>
           <input type="text" class="form-control" placeholder="Email domain (ex. wakefield.myenotice.com)" name="domain" required value="{{ params.domain }}">
+        </div>
+        <div class="form-group">
           <label>Event type</label>
           <input type="text" class="form-control" placeholder="Event type (ex. delivered)" name="event" value="{{ params.event }}">
+        </div>
+        <div class="form-group">
           <label>Recipient email</label>
           <input type="email" class="form-control" placeholder="Recipient email address" name="recipient" value="{{ params.recipient }}">
         </div>
@@ -37,33 +40,33 @@
   </div>
   <hr>
   <div class="container">
-    <div>
-      {% if download_link %}
-      <a href="{{ download_link }}" class="btn btn-success" role="button" target="_blank">Export to CSV</a>
-      {% endif %}
-    </div>
-    <div>
-      <table>
-        <thead id="headers">
-          <th>Timestamp</th>
-          <th>Event Type</th>
-          <th>Recipients</th>
-          <th>User variables</th>
-          <th>Message headers</th>
-        </thead>
-        <tbody>
-          {% for event in events %}
-          <tr>
-            <td>{{ event.timestamp }}</td>
-            <td>{{ event.event }}</td>
-            <td>{{ event.message.recipients }}</td>
-            <td>{{ event['user-variables'] }}</td>
-            <td>{{ event.message.headers }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+    {% if events %}
+      <div>
+        <a href="{{ download_link }}" class="btn btn-success" role="button" target="_blank">Export to CSV</a>
+      </div>
+      <div>
+        <table class="table table-hover">
+          <thead id="headers">
+            <th>Timestamp</th>
+            <th>Event Type</th>
+            <th>Recipients</th>
+            <th>User variables</th>
+            <th>Message headers</th>
+          </thead>
+          <tbody>
+            {% for event in events %}
+            <tr>
+              <td>{{ event.timestamp }}</td>
+              <td>{{ event.event }}</td>
+              <td>{{ event.message.recipients }}</td>
+              <td>{{ event['user-variables'] }}</td>
+              <td>{{ event.message.headers }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endif %}
   </div>
   </div>
 </body>
