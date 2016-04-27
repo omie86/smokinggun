@@ -15,37 +15,43 @@ from mailgunpi.config import UPLOAD_FOLDER
 
 @app.route('/', methods=['GET'])
 def get_root():
-    """Return"""
+    """Return root page"""
+    params = {}
+    events = []
+    download_endpoint = None
+
+    return render_template('index.html', events=events, download_link=download_endpoint, params=params)
+
+
+@app.route('/search', methods=['GET'])
+def get_search():
+    """Return search page"""
     domain = request.args.get('domain')
-    if domain:
-        # Build Mailgun API parameter dictionary
-        params = {}
 
-        event_type = request.args.get('event')
-        if event_type:
-            params['event'] = event_type
+    # Build Mailgun API parameter dictionary
+    params = {}
 
-        recipient = request.args.get('recipient')
-        if recipient:
-            params['recipient'] = recipient
+    event_type = request.args.get('event')
+    if event_type:
+        params['event'] = event_type
 
-        # Fetch data from Mailgun API for given parameters
-        try:
-            response = mg.get_events(domain, params)
-            events = response['items']
-        except exceptions.InvalidMailgunApiRequest:
-            params['domain'] = domain
-            return render_template('index.html', events=[], params=params, error=True)
+    recipient = request.args.get('recipient')
+    if recipient:
+        params['recipient'] = recipient
 
-        # Add domain to params object so it renders in template
+    # Fetch data from Mailgun API for given parameters
+    try:
+        response = mg.get_events(domain, params)
+        events = response['items']
+    except exceptions.InvalidMailgunApiRequest:
         params['domain'] = domain
+        return render_template('index.html', events=[], params=params, error=True)
 
-        # Create download endpoint
-        download_endpoint = '/download?domain={}&event={}&recipient={}'.format(domain, event_type, recipient)
-    else:
-        params = {}
-        events = []
-        download_endpoint = None
+    # Add domain to params object so it renders in template
+    params['domain'] = domain
+
+    # Create download endpoint
+    download_endpoint = '/download?domain={}&event={}&recipient={}'.format(domain, event_type, recipient)
 
     return render_template('index.html', events=events, download_link=download_endpoint, params=params)
 
