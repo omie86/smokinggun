@@ -15,4 +15,3 @@ mg = MailgunClient(api_key, base_url)
 
 
 from mailgunpi import views
-from mailgunpi.endpoints import mailgun
