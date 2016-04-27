@@ -9,6 +9,7 @@ from flask import Flask, redirect, render_template, jsonify, make_response, requ
 from json2csv import gen_outline, json2csv
 
 from mailgunpi import app, mg
+from mailgunclient import exceptions
 from mailgunpi.config import UPLOAD_FOLDER
 
 
@@ -22,15 +23,19 @@ def get_root():
 
         event_type = request.args.get('event')
         if event_type:
-                params['event'] = event_type
+            params['event'] = event_type
 
         recipient = request.args.get('recipient')
         if recipient:
             params['recipient'] = recipient
 
         # Fetch data from Mailgun API for given parameters
-        response = mg.get_events(domain, params)
-        events = response['items']
+        try:
+            response = mg.get_events(domain, params)
+            events = response['items']
+        except exceptions.InvalidMailgunApiRequest:
+            params['domain'] = domain
+            return render_template('index.html', events=[], params=params, error=True)
 
         # Add domain to params object so it renders in template
         params['domain'] = domain
