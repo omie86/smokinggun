@@ -8,6 +8,11 @@
   <title>Mailgun P.I.</title>
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <style>
+    .bg-danger {
+      padding: 10px;
+    }
+  </style>
 </head>
 
 <body>
@@ -39,6 +44,12 @@
   </div>
 
   <div class="container">
+    {% if error %}
+      <div class="bg-danger">
+        <h4>Error: Invalid query</h4>
+        <p>Please review email domain, event type and/or recipient email.</p>
+      </div>
+    {% endif %}
     {% if events %}
       <div>
         <a href="{{ download_link }}" class="btn btn-success" role="button" target="_blank">Export to CSV</a>
