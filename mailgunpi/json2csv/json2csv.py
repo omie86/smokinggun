@@ -88,7 +88,12 @@ class Json2Csv(object):
         elif isinstance(item, dict):
             return self.DICT_OPEN + self.DICT_SEP_CHAR.join([self.KEY_VAL_CHAR.join([k, self.make_string(val)]) for k, val in item.items()]) + self.DICT_CLOSE
         else:
-            return unicode(item)
+            if isinstance(item, str):
+                return unicode(item, 'utf-8')
+            if isinstance(item, bool) or isinstance(item, float) or isinstance(item, int) or item is None:
+                return unicode(item)
+
+            return item.encode('utf-8').strip()
 
     def write_csv(self, filename='output.csv', make_strings=False):
         """Write the processed rows to the given filename
