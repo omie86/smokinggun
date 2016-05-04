@@ -112,7 +112,7 @@ def download():
     loader.load(file_json)
 
     # Write to CSV file
-    loader.write_csv(filename="./mailgunpi/tempfiles/test.csv")
+    loader.write_csv(filename="./mailgunpi/tempfiles/test.csv", make_strings=True)
 
     # Return CSV file
     return send_from_directory(directory=UPLOAD_FOLDER, filename='test.csv')
