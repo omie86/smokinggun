@@ -73,10 +73,6 @@ def main():
     parser = init_parser()
     args = parser.parse_args()
 
-    print args.json_file
-    print args.each_line
-    print args.collection
-
     outline = make_outline(args.json_file, args.each_line, args.collection)
     outfile = args.output_file
     if outfile is None:
