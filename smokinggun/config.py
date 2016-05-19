@@ -5,4 +5,4 @@ DEBUG = False
 MAILGUN_API_BASE_URL = ''
 MAILGUN_API_KEY = ''
 
-UPLOAD_FOLDER = '/Users/joel.colucci/Code/mailgunpi/mailgunpi/tempfiles/'
+UPLOAD_FOLDER = '/Users/joel.colucci/Code/smokinggun/smokinggun/tempfiles/'

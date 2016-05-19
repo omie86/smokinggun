@@ -1,4 +1,4 @@
-from mailgunpi import app
+from smokinggun import app
 
 
 app.run(host='0.0.0.0', port=8080, threaded=True)

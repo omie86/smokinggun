@@ -8,9 +8,9 @@ from flask import Flask, redirect, render_template, jsonify, make_response, requ
 
 from json2csv import gen_outline, json2csv
 
-from mailgunpi import app, mg
+from smokinggun import app, mg
 from mailgunclient import exceptions
-from mailgunpi.config import UPLOAD_FOLDER
+from smokinggun.config import UPLOAD_FOLDER
 
 
 @app.route('/', methods=['GET'])
@@ -85,7 +85,7 @@ def download():
     # Write JSON file
     filename = 'mailgun_json.json'
 
-    json_file_path = './mailgunpi/tempfiles/{}'.format(filename)
+    json_file_path = './smokinggun/tempfiles/{}'.format(filename)
 
     with open(json_file_path, 'w') as f:
         f.write(json.dumps(mailgun_json))
@@ -98,7 +98,7 @@ def download():
 
     # Store map file
     temp_outfile = 'temp.outfile.json'
-    outfile = './mailgunpi/tempfiles/{}'.format(temp_outfile)
+    outfile = './smokinggun/tempfiles/{}'.format(temp_outfile)
     with open(outfile, 'w') as f:
         json.dump(outline, f, indent=2, sort_keys=True)
 
@@ -112,7 +112,7 @@ def download():
     loader.load(file_json)
 
     # Write to CSV file
-    loader.write_csv(filename="./mailgunpi/tempfiles/test.csv", make_strings=True)
+    loader.write_csv(filename="./smokinggun/tempfiles/test.csv", make_strings=True)
 
     # Return CSV file
     return send_from_directory(directory=UPLOAD_FOLDER, filename='test.csv')
