@@ -1,4 +1,4 @@
-# Mailgun P.I.
+# SmokingGun
 ## Description
 A web application to simplify querying Mailgun Event log data.
 
