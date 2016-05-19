@@ -1,6 +1,0 @@
----
-  # Playbook webserver role
-
-- include: nginx.yml
-
-- include: ufw.yml
